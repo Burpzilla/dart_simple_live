@@ -28,13 +28,17 @@ jobs:
         working-directory: ./simple_live_app
         run: flutter pub get
 
-      - name: Build debug APK
+      - name: 编译Release APK
         working-directory: ./simple_live_app
-        run: flutter build apk --debug
+        run: flutter build apk --release
 
-      - name: Upload APK Artifact
+      - name: 查找apk位置
+        working-directory: ./simple_live_app
+        run: find . -name "*.apk"
+
+      - name: 上传Release成品
         uses: actions/upload-artifact@v4
         with:
-          name: simple-live-android-debug
-          path: simple_live_app/build/app/outputs/flutter-apk/app-debug.apk
+          name: simple-live-android-release
+          path: simple_live_app/build/app/outputs/flutter-apk/app-release.apk
           retention-days: 30
