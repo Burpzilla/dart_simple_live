@@ -1,0 +1,40 @@
+name: Build SimpleLive Android APK
+on:
+  workflow_dispatch: # ✅ 支持手动点击触发（推荐）
+  push:
+    branches: [ dev, main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full source
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter 3.38.3
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.3'
+          channel: stable
+          cache: true
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Get dependencies
+        working-directory: ./simple_live_app
+        run: flutter pub get
+
+      - name: Build debug APK
+        working-directory: ./simple_live_app
+        run: flutter build apk --debug
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: simple-live-android-debug
+          path: simple_live_app/build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 30
