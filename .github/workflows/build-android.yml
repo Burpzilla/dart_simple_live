@@ -36,9 +36,12 @@ jobs:
         working-directory: ./simple_live_app
         run: find . -name "*.apk"
 
-      - name: 上传Release成品
-        uses: actions/upload-artifact@v4
+      - name: 发布到GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
           name: simple-live-android-release
-          path: simple_live_app/build/app/outputs/flutter-apk/app-release.apk
+          files: simple_live_app/build/app/outputs/apk/release/app-release-unsigned.apk
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           retention-days: 30
