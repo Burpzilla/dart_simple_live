@@ -39,6 +39,7 @@ jobs:
       - name: 发布到GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: v1.0.0
           name: simple-live-android-release
           files: simple_live_app/build/app/outputs/apk/release/app-release-unsigned.apk
           generate_release_notes: true
